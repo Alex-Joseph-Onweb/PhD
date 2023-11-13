@@ -1,12 +1,14 @@
 def sub_modular_maximization(arr, target_modulus):
     arr.sort(reverse=True)
-    result = 0    
+    result = 0
+    arr2 = []
     for num in arr:
         if (result + num) % target_modulus >= result % target_modulus:
             result += num    
-    return result
+            arr2.append(num)
+    return result,arr2
 
 arr = [3, 7, 2, 8, 4, 5]
-max_value = 10
-result = sub_modular_maximization(arr, max_value)
-print(f"Maximum sub-modular sum mod {max_value} is: {result}")
+max_value = 20
+result,new_arr = sub_modular_maximization(arr, max_value)
+print(f"Maximum sub-modular sum mod {max_value} is: {result} and sublist is: {new_arr}")
