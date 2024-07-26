@@ -40,6 +40,10 @@ D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
 k = 2
 epsilon = 1.0
 delta = 1e-5
+
+#k = 3
+#epsilon = 0.1
+#delta = 2 ** -20
     
 # Run the DP Greedy algorithm
 result = dp_greedy_submodular(D, k, epsilon, delta)
