@@ -33,12 +33,10 @@ def dp_greedy_submodular(D, k, epsilon, delta):
         S.add(vi)
     return S
 
-# Example usage
-if __name__ == "__main__":
-    # Example dataset D with some utility values for elements
-    D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
+# Example dataset D with some utility values for elements
+D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
     
-    # Parameters
-    k = 2
-    epsilon = 1.0
-    delta = 1
+# Parameters
+k = 2
+epsilon = 1.0
+delta = 1
