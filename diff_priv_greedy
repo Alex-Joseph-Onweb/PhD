@@ -39,4 +39,8 @@ D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
 # Parameters
 k = 2
 epsilon = 1.0
-delta = 1
+delta = 1e-5
+    
+# Run the DP Greedy algorithm
+result = dp_greedy_submodular(D, k, epsilon, delta)
+print(f"Selected subset: {result}")
