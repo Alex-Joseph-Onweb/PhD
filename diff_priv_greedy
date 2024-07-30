@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def submodular_function(S, D):
     """
@@ -22,10 +23,9 @@ def private_selection(qi, D, epsilon, delta):
     candidates = list(qi.keys())
     return np.random.choice(candidates)
 
+""" Differentially Private Greedy Algorithm for Submodular Maximization under a Cardinality Constraint. """
+
 def dp_greedy_submodular(D, k, epsilon, delta):
-    """
-    Differentially Private Greedy Algorithm for Submodular Maximization under a Cardinality Constraint.
-    """
     S = set()
     for i in range(k):
         qi = {v: gain(v, S, D) for v in set(D.keys()).difference(S)}
@@ -35,15 +35,21 @@ def dp_greedy_submodular(D, k, epsilon, delta):
 
 # Example dataset D with some utility values for elements
 D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
+
+# Read the CSV file into a DataFrame
+df = pd.read_csv('other-Federal_02216.csv')
+
+# Display the DataFrame
+print(df['PU_Address'])
     
 # Parameters
-k = 2
-epsilon = 1.0
-delta = 1e-5
+#k = 2
+#epsilon = 1.0
+#delta = 1e-5
 
-#k = 3
-#epsilon = 0.1
-#delta = 2 ** -20
+k = 3
+epsilon = 0.1
+delta = 2 ** -20
     
 # Run the DP Greedy algorithm
 result = dp_greedy_submodular(D, k, epsilon, delta)
