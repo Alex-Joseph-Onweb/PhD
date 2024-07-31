@@ -5,7 +5,22 @@ def submodular_function(S, D):
     """
     Placeholder for the submodular function fD.
     Modify this function based on the specific submodular function fD for your problem.
+    
+    
     """
+    def fD(S):
+        n=len(D)
+        m=len(S)
+        M=1
+        for i in range(1,n):
+            for j in range(1,m):
+                x=min(M,M(i,j))
+        return n-x
+    def M(i,j):
+        m=0.266
+        i1,i2=i[x],i[y]
+        j1,j2=j[x],j[y]
+        return (abs(i1-j1)+abs(i2-j2))/m
     return np.sum([D[v] for v in S])
 
 def gain(v, S, D):
@@ -27,20 +42,20 @@ def private_selection(qi, D, epsilon, delta):
 
 def dp_greedy_submodular(D, k, epsilon, delta):
     S = set()
-    for i in range(k):
+    for i in range(1,k):
         qi = {v: gain(v, S, D) for v in set(D.keys()).difference(S)}
         vi = private_selection(qi, D, epsilon, delta)
         S.add(vi)
     return S
 
 # Example dataset D with some utility values for elements
-D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
+#D = {'a': 1.0, 'b': 2.0, 'c': 3.0, 'd': 4.0}
 
 # Read the CSV file into a DataFrame
-df = pd.read_csv('other-Federal_02216.csv')
+D = pd.read_csv('other-Federal_02216.csv')
 
 # Display the DataFrame
-print(df['PU_Address'])
+#print(df['PU_Address'])
     
 # Parameters
 #k = 2
