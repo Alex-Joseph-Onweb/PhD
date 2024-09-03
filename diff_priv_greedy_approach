@@ -59,9 +59,11 @@ def M(i,j,k,D):
 def exponential_mechanism_selection(qi, D, epsilon, delta):    
     lambda_value=1
     prob=dict()
+    high=0
     for i in qi.values():
         prob[i]=np.exp((epsilon * i) / (2 * lambda_value))
-    high=max(prob.values())
+        if high< prob[i]:
+            high=prob[i]
     for i in prob.keys():
         if(prob[i]==high):
             ind = i
