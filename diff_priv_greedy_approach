@@ -1,0 +1,91 @@
+# Program to implement Basic Greedy approach with Differential Privacy
+
+import numpy as np
+import pandas as pd
+import time
+
+"""    Differentially Private Greedy Algorithm for Submodular Maximization under a Cardinality Constraint.    """
+
+def dp_greedy_submodular(D, k, epsilon, delta):
+    S = set()
+    obj=dict()
+    for i in range(k):
+        qi = {v: gain(v, S, D) for v in set(D['Name']).difference(S)}
+        print(qi)
+        vi = exponential_mechanism_selection(qi, D, epsilon, delta)
+        S.add(vi)
+        obj[vi]=qi[vi]       
+    return S,obj
+
+"""    Computes the gain of adding element v to set S for dataset D.    """
+
+def gain(v, S, D):    
+    x=submodular_function(v, S, D)
+    S.add(v)
+    y=submodular_function(v, S, D)
+    S.remove(v)
+    return abs(y - x)
+
+"""    Placeholder for the submodular function fD.    """
+
+def submodular_function(v, S, D):
+    n=len(D)    
+    x=1
+    sum=0
+    for i,j in zip(D['Lat'],D['Lon']):
+        for k in S:
+            h=M(i,j,k,D)
+            if (h<x and h!=0):
+                x=h
+        sum+=x
+    return n-sum
+
+"""    Placeholder for the Manhattan Distance M.    """
+
+def M(i,j,k,D):
+    m = 0.266
+    i1,i2=i,j
+    value=0
+    for e in D['Name']:
+        if(e==k):
+            row_values=D.loc[D['Name'] == k, ['Lat', 'Lon']].values
+            j1 = row_values[0][0]
+            j2 = row_values[0][1]
+            value = (abs(i1-j1)+abs(i2-j2))/m
+    return value
+
+"""    Placeholder for the differentially private selection mechanism. Implement this function to select an element v from the domain of qi using differential privacy.    """
+
+def exponential_mechanism_selection(qi, D, epsilon, delta):    
+    lambda_value=1
+    prob=dict()
+    for i in qi.values():
+        prob[i]=np.exp((epsilon * i) / (2 * lambda_value))
+    high=max(prob.values())
+    for i in prob.keys():
+        if(prob[i]==high):
+            ind = i
+    for i in qi.keys():
+        if(qi[i]==ind):
+            return i
+
+
+# Read the CSV file into a DataFrame
+D = pd.read_csv('C:\\Users\\alexj\\Downloads\\Research LR\\archive\\sample 20rows.csv')
+
+# Parameters
+k = 3
+epsilon = 0.1
+delta = 2 ** -20
+
+#Execution time calculation
+start_time = time.time()
+
+# Run the DP Greedy algorithm
+result,obj_fn = dp_greedy_submodular(D, k, epsilon, delta)
+sum=0
+for i in result:
+    sum+=obj_fn[i]
+print(f"Selected subset: {result}")
+print(f"Objective function value f(S) = : {sum}")
+print("Program executed for %s seconds" % (time.time() - start_time))
