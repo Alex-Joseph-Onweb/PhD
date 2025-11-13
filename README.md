@@ -1,2 +1,2 @@
-# PhD
-Works associated with PhD studies
+# DP
+Works associated with Differential Privacy studies
